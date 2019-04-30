@@ -1,0 +1,23 @@
+
+processor Ramp
+{
+    output stream float out;
+
+    let length = int(processor.frequency);
+    let amp = 0.1f;
+
+    void run()
+    {
+        float phase = 0;
+        var freq = 440.0;
+
+        loop (length)
+        {
+            let phaseIncrement = float (freq  * twoPi * processor.period);
+            out << sin (phase) * amp;
+            phase = soul::addModulo2Pi (phase, phaseIncrement);
+            advance();
+            freq += 0.1f;
+       }
+    }
+}
